@@ -1,0 +1,29 @@
+backend:
+  name: github
+  repo: testUser/svp-default
+  branch: main
+
+media_folder: posts/{{slug}}
+public_folder: ./
+
+collections:
+  - name: posts
+    label: 投稿
+    folder: posts
+    path: "{{slug}}/README"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: 标题, name: title, widget: string }
+      - { label: 封面, name: cover, widget: image, required: false }
+      - label: 类型
+        name: type
+        widget: select
+        options: [project, article]
+        default: project
+      - label: 参数状态
+        name: paramState
+        widget: select
+        options: [with-param, tuned, no-param]
+        default: no-param
+      - { label: 正文, name: body, widget: markdown }
