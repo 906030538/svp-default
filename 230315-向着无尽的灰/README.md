@@ -1,5 +1,5 @@
 *Powered by Sector Vault Project*
-issue: 2
+issue: 3
 cover: 封面.png
 videos: https://www.bilibili.com/video/av438421289
 tags: 夢ノ結唱, BanG Dream!, Project Sekai
