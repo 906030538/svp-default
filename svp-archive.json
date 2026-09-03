@@ -12,10 +12,43 @@
       "publishedAt": "2026-09-01T12:00:00Z",
       "type": "project",
       "paramState": "with-param",
-      "song": ["My song"],
-      "engines": ["Synthesizer V"],
-      "voicebanks": ["Miku"],
-      "languages": ["jp"]
+      "song": [
+        "My song"
+      ],
+      "engines": [
+        "Synthesizer V"
+      ],
+      "voicebanks": [
+        "Miku"
+      ],
+      "languages": [
+        "jp"
+      ]
+    },
+    {
+      "slug": "230315-向着无尽的灰",
+      "owner": "906030538",
+      "repo": "svp-default",
+      "platform": "github",
+      "type": "project",
+      "title": "向着无尽的灰",
+      "submittedAt": "2023-03-15T04:00:00.000Z",
+      "publishedAt": "2023-03-15T04:00:00.000Z",
+      "cover": "封面.png",
+      "paramState": "with-params",
+      "songs": [
+        "限りなく灰色へ"
+      ],
+      "engines": [
+        "CeVIO AI"
+      ],
+      "voicebanks": [
+        "POPY",
+        "ROSE"
+      ],
+      "languages": [
+        "zh"
+      ]
     }
   ]
 }
