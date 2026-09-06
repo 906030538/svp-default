@@ -1,6 +1,6 @@
 backend:
   name: github
-  repo: testUser/svp-default
+  repo: 906030538/svp-default
   branch: main
 
 media_folder: posts/{{slug}}
@@ -16,14 +16,48 @@ collections:
     fields:
       - { label: 标题, name: title, widget: string }
       - { label: 封面, name: cover, widget: image, required: false }
+      - { label: 投稿时间, name: submittedAt, widget: datetime }
+      - { label: 发布日期, name: publishedAt, widget: datetime }
       - label: 类型
         name: type
         widget: select
         options: [project, article]
         default: project
+      - label: 歌曲
+        name: song
+        widget: array
+        allow_add: true
+        allow_remove: true
+      - label: 合成引擎
+        name: engines
+        widget: array
+        allow_add: true
+        allow_remove: true
+      - label: 声库
+        name: voicebanks
+        widget: array
+        allow_add: true
+        allow_remove: true
+      - label: 语言
+        name: languages
+        widget: array
+        allow_add: true
+        allow_remove: true
       - label: 参数状态
         name: paramState
         widget: select
         options: [with-param, tuned, no-param]
         default: no-param
+      - label: 标签
+        name: tags
+        widget: array
+        allow_add: true
+        allow_remove: true
       - { label: 正文, name: body, widget: markdown }
+      - label: 关联发布id
+        name: release
+        widget: hidden
+      - label: 关联评论id
+        name: issue
+        widget: hidden
+        required: false
