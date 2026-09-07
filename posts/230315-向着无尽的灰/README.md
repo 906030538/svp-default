@@ -6,11 +6,10 @@ submittedAt: 2023-03-15T04:00:00.000Z
 publishedAt: 2023-03-15T04:00:00.000Z
 cover: 封面.png
 license: CC-BY-SA-4.0
-paramState: with-params
 songs: 限りなく灰色へ
 engines: CeVIO AI
 voicebanks: POPY, ROSE
-languages: zh
+languages: ja
 videos: https://www.bilibili.com/video/av438421289
 tags: 夢ノ結唱, BanG Dream!, Project Sekai
 
