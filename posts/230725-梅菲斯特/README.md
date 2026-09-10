@@ -1,11 +1,11 @@
 *Powered by Sector Vault Project*
 issue: 6
-release: 382315262
 title: 梅菲斯特
 type: project
 submittedAt: 2023-07-25T04:00:00.000Z
 publishedAt: 2023-07-25T04:00:00.000Z
 cover: ksm单齿轮眼.png
+license: CC-BY-NC-4.0
 songs: メフィスト
 engines: CeVIO AI
 voicebanks: POPY, ROSE
@@ -40,3 +40,4 @@ tags: 女王蜂, 梅菲斯特, 【我推的孩子】
 
 - メフィスト_POPY.ccs
 - メフィスト_ROSE.ccs
+- *メフィスト.sesx
