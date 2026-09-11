@@ -7,4 +7,3 @@ Sector Vault Project 内容仓（默认模板）。
 - [260901-test](./posts/260901-test)
 
 
-- [230725-梅菲斯特](posts/230725-梅菲斯特/)
