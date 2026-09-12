@@ -1,3 +1,19 @@
 {
-  "submissions": []
+  "submissions": [
+    {
+      "slug": "260913-SV导出音频声道注意事项",
+      "owner": "CLCNTanya",
+      "repo": "svp-default",
+      "platform": "gitee",
+      "type": "article",
+      "title": "SV导出音频声道注意事项",
+      "submittedAt": "2026-09-12T16:04:20.916Z",
+      "publishedAt": "2026-09-12T16:04:20.916Z",
+      "email": "906030538@qq.com",
+      "tags": [
+        "教程",
+        "Synthesizer V"
+      ]
+    }
+  ]
 }
