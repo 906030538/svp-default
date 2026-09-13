@@ -176,6 +176,31 @@
       "languages": [
         "zh"
       ]
+    },
+    {
+      "slug": "240717-先富起来",
+      "owner": "CLCNTanya",
+      "repo": "svp-default",
+      "platform": "gitee",
+      "type": "project",
+      "title": "允许丰川祥子先富起来",
+      "submittedAt": "2024-07-17T01:00:00.000Z",
+      "publishedAt": "2026-09-13T17:56:01.667Z",
+      "cover": "cover.png",
+      "email": "906030538@qq.com",
+      "paramState": "with-params",
+      "songs": [
+        "允许部分艺术家先富起来"
+      ],
+      "engines": [
+        "Synthesizer V"
+      ],
+      "voicebanks": [
+        "POPY"
+      ],
+      "languages": [
+        "zh"
+      ]
     }
   ]
 }
