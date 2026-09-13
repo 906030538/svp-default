@@ -113,6 +113,38 @@
       "languages": [
         "ja"
       ]
+    },
+    {
+      "slug": "240704-学猫叫",
+      "owner": "CLCNTanya",
+      "repo": "svp-default",
+      "platform": "gitee",
+      "type": "project",
+      "title": "学猫叫",
+      "submittedAt": "2024-07-04T02:00:00.000Z",
+      "publishedAt": "2026-09-13T17:40:58.004Z",
+      "cover": "43eec63ed4144a4c1f599becf1b5d5ffffa2182c.jpg",
+      "email": "906030538@qq.com",
+      "tags": [
+        "夢ノ結唱",
+        "潘柚彤",
+        "陈峰",
+        "PICO"
+      ],
+      "paramState": "with-params",
+      "songs": [
+        "学猫叫"
+      ],
+      "engines": [
+        "Synthesizer V"
+      ],
+      "voicebanks": [
+        "POPY",
+        "ROSE"
+      ],
+      "languages": [
+        "zh"
+      ]
     }
   ]
 }
