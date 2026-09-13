@@ -3,7 +3,8 @@ issue: undefined
 title: 今年夏天
 type: project
 submittedAt: 2025-07-06T09:45:00.000Z
-publishedAt: 2026-09-13T20:26:45.635Z
+publishedAt: 2026-09-13T20:26:00.000Z
+cover: e44c39d5326ae8449596c43aa75d9b7f09da5c57.jpg
 songs: 今年夏天
 engines: Synthesizer V 2
 voicebanks: PASTEL, ROSE
