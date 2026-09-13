@@ -273,6 +273,37 @@
       "languages": [
         "ja"
       ]
+    },
+    {
+      "slug": "250706-今年夏天",
+      "owner": "CLCNTanya",
+      "repo": "svp-default",
+      "platform": "gitee",
+      "type": "project",
+      "title": "今年夏天",
+      "submittedAt": "2025-07-06T09:45:00.000Z",
+      "publishedAt": "2026-09-13T20:26:45.635Z",
+      "email": "906030538@qq.com",
+      "tags": [
+        "夢ノ結唱",
+        "毕业",
+        "前岛亚美",
+        "丸山彩"
+      ],
+      "paramState": "tuned",
+      "songs": [
+        "今年夏天"
+      ],
+      "engines": [
+        "Synthesizer V 2"
+      ],
+      "voicebanks": [
+        "PASTEL",
+        "ROSE"
+      ],
+      "languages": [
+        "zh"
+      ]
     }
   ]
 }
