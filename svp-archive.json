@@ -45,6 +45,38 @@
       "languages": [
         "ja"
       ]
+    },
+    {
+      "slug": "240225-POPPY",
+      "owner": "CLCNTanya",
+      "repo": "svp-default",
+      "platform": "gitee",
+      "type": "project",
+      "title": "POPPY",
+      "submittedAt": "2024-02-25T03:30:00.000Z",
+      "publishedAt": "2026-09-13T15:18:20.924Z",
+      "cover": "82c093430f5c14d3efb8551fcc715a473be2d932.jpg",
+      "email": "906030538@qq.com",
+      "tags": [
+        "夢ノ結唱",
+        "VRM",
+        "MMD",
+        "3DMV",
+        "STAYC"
+      ],
+      "paramState": "no-params",
+      "songs": [
+        "POPPY"
+      ],
+      "engines": [
+        "Synthesizer V"
+      ],
+      "voicebanks": [
+        "POPY"
+      ],
+      "languages": [
+        "ja"
+      ]
     }
   ]
 }
