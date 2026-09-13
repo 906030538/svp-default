@@ -145,6 +145,37 @@
       "languages": [
         "zh"
       ]
+    },
+    {
+      "slug": "240707-仙儿",
+      "owner": "CLCNTanya",
+      "repo": "svp-default",
+      "platform": "gitee",
+      "type": "project",
+      "title": "仙儿",
+      "submittedAt": "2024-07-07T02:00:00.000Z",
+      "publishedAt": "2026-09-13T17:52:36.981Z",
+      "cover": "cover.png",
+      "email": "906030538@qq.com",
+      "tags": [
+        "夢ノ結唱",
+        "二手玫瑰",
+        "唢呐",
+        "翻调"
+      ],
+      "paramState": "with-params",
+      "songs": [
+        "仙儿"
+      ],
+      "engines": [
+        "Synthesizer V"
+      ],
+      "voicebanks": [
+        "POPY"
+      ],
+      "languages": [
+        "zh"
+      ]
     }
   ]
 }
