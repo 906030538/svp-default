@@ -241,6 +241,38 @@
       "languages": [
         "zh"
       ]
+    },
+    {
+      "slug": "250430-天球彗星",
+      "owner": "CLCNTanya",
+      "repo": "svp-default",
+      "platform": "gitee",
+      "type": "project",
+      "title": "天球中彗星跨越夜晚",
+      "submittedAt": "2025-04-30T02:30:00.000Z",
+      "publishedAt": "2026-09-13T20:20:15.020Z",
+      "cover": "cover.png",
+      "email": "906030538@qq.com",
+      "tags": [
+        "夢ノ結唱",
+        "星街彗星",
+        "天球",
+        "星街すいせい"
+      ],
+      "paramState": "with-params",
+      "songs": [
+        "天球、彗星は夜を跨いで"
+      ],
+      "engines": [
+        "Synthesizer V"
+      ],
+      "voicebanks": [
+        "POPY",
+        "ROSE"
+      ],
+      "languages": [
+        "ja"
+      ]
     }
   ]
 }
