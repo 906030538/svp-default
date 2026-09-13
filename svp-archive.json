@@ -14,6 +14,37 @@
         "教程",
         "Synthesizer V"
       ]
+    },
+    {
+      "slug": "240117-向着无尽的灰",
+      "owner": "CLCNTanya",
+      "repo": "svp-default",
+      "platform": "gitee",
+      "type": "project",
+      "title": "向着无尽的灰",
+      "submittedAt": "2024-01-16T18:35:00.000Z",
+      "publishedAt": "2026-09-13T00:08:00.590Z",
+      "cover": "656999453f2f3d0e41f8dca4fba0390a6155265a.jpg",
+      "email": "906030538@qq.com",
+      "tags": [
+        "夢ノ結唱",
+        "Project SEKAI",
+        "25時、ナイトコードで。"
+      ],
+      "paramState": "with-params",
+      "songs": [
+        "限りなく灰色へ"
+      ],
+      "engines": [
+        "Synthesizer V"
+      ],
+      "voicebanks": [
+        "POPY",
+        "ROSE"
+      ],
+      "languages": [
+        "ja"
+      ]
     }
   ]
 }
