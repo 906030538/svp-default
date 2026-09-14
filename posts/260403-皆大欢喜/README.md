@@ -1,9 +1,9 @@
 *Powered by Sector Vault Project*
-issue: undefined
+issue: IKFR7S
 title: 皆大欢喜
 type: project
 submittedAt: 2026-04-03T04:15:00.000Z
-publishedAt: 2026-09-13T20:31:28.007Z
+publishedAt: 2026-09-13T20:31:00.000Z
 cover: 82d10118a7d0dda88e700b29e95cf2df6d003157.jpg
 songs: お気に召すまま
 engines: Synthesizer V 2
