@@ -1,5 +1,5 @@
 *Powered by Sector Vault Project*
-issue: undefined
+issue: IKFR7Q
 title: 今年夏天
 type: project
 submittedAt: 2025-07-06T09:45:00.000Z
