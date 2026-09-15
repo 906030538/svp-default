@@ -355,9 +355,19 @@
       "type": "project",
       "title": "Borderline",
       "submittedAt": "2026-04-11T04:15:00.000Z",
-      "publishedAt": "2026-09-15T20:28:51.536Z",
+      "publishedAt": "2026-09-15T20:28:00.000Z",
       "cover": "cover.png",
+      "issue": "IKG225",
+      "release": "1146336",
       "email": "906030538@qq.com",
+      "tags": [
+        "夢ノ結唱",
+        "偶像大师",
+        "闪耀色彩",
+        "Shiny Colors",
+        "3DMV",
+        "郁田阳希"
+      ],
       "paramState": "with-params",
       "songs": [
         "Borderline"
