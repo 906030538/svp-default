@@ -3,7 +3,7 @@ issue: IKFEL4
 title: 致刚刚开始奔跑的你
 type: project
 submittedAt: 2025-02-01T02:30:00.000Z
-publishedAt: 2026-09-13T19:01:00.000Z
+publishedAt: 2026-09-13T19:01:22.141Z
 cover: Cover.png
 songs: 走り始めたばかりのキミに
 engines: Synthesizer V
