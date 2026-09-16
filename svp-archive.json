@@ -212,8 +212,10 @@
       "type": "project",
       "title": "致刚刚开始奔跑的你",
       "submittedAt": "2025-02-01T02:30:00.000Z",
-      "publishedAt": "2026-09-13T19:01:22.141Z",
+      "publishedAt": "2026-09-13T19:01:00.000Z",
       "cover": "Cover.png",
+      "issue": "IKFEL4",
+      "release": "1142135",
       "email": "906030538@qq.com",
       "tags": [
         "夢ノ結唱",
