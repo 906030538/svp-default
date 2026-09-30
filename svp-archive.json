@@ -427,5 +427,10 @@
         "ja"
       ]
     }
+  ],
+  "mirrors": [
+    "gitee.com/CLCNTanya/svp-default",
+    "github.com/906030538/svp-default",
+    "atomgit.com/clcntanya/svp-default"
   ]
 }
