@@ -1,0 +1,26 @@
+# 镜像同步：push 时从主仓库（svp-archive.json mirrors 第一位）同步 Issue 与 Release（含附件）
+# - 当前仓库（Gitee）即主仓库时，本流水线代为同步无 CI 平台的镜像（如 AtomGit），需 ATOMGIT_TOKEN；
+# - 当前仓库是镜像时，从主仓库同步自身。
+name: sync-mirrors
+displayName: 同步镜像 Issue 与 Release
+triggers:
+  push:
+    autoCancel: true
+    branches:
+      include:
+        - main
+        - master
+variables:
+  GITEE_TOKEN: ${{GITEE_TOKEN}}
+  GITHUB_TOKEN: ${{GITHUB_TOKEN}}
+  ATOMGIT_TOKEN: ${{ATOMGIT_TOKEN}}
+stages:
+  - stage:
+    name: sync
+    displayName: 执行镜像同步
+    steps:
+      - step: shell@sh
+        name: run-sync
+        commands:
+          - node --version
+          - GITEE_TOKEN="${GITEE_TOKEN:-}" GITHUB_TOKEN="${GITHUB_TOKEN:-}" ATOMGIT_TOKEN="${ATOMGIT_TOKEN:-}" node scripts/sync-mirrors.mjs

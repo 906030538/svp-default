@@ -1,0 +1,37 @@
+# 镜像同步：push 时从主仓库（svp-archive.json mirrors 第一位）同步 Issue 与 Release（含附件）
+# 当前仓库（GitHub）若即主仓库，脚本会自动跳过；否则按同名 issue / 同 TAG release 补齐。
+# 主仓库在 Gitee 且为公开仓库时无需令牌；建议配置 GITEE_ACCESS_TOKEN 备用（私有仓库/限流）。
+# 若主仓库平台无 CI（如 AtomGit 主仓库），本流水线会代为同步其他无 CI 镜像，需 ATOMGIT_TOKEN。
+name: Sync mirrors
+
+on:
+  push:
+  workflow_dispatch: # 支持手动触发，便于首次全量同步
+
+permissions:
+  issues: write
+  contents: write
+
+# 排队执行，避免连续 push 并发时重复创建
+concurrency:
+  group: sync-mirrors
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: 从主仓库同步 Issue 与 Release
+        env:
+          MIRROR_SYNC_CURRENT_REPO: github.com/${{ github.repository }}
+          # 写当前仓库用内置令牌；读取 Gitee 主仓库用 GITEE_ACCESS_TOKEN（可选）
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITEE_TOKEN: ${{ secrets.GITEE_ACCESS_TOKEN }}
+          ATOMGIT_TOKEN: ${{ secrets.ATOMGIT_TOKEN }}
+        run: node scripts/sync-mirrors.mjs
