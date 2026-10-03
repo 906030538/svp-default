@@ -5,12 +5,12 @@ type: project
 submittedAt: 2024-07-07T02:00:00.000Z
 publishedAt: 2026-09-13T17:52:36.981Z
 cover: cover.png
-songs: 仙儿
-engines: Synthesizer V
-voicebanks: POPY
-languages: zh
-videos: https://www.bilibili.com/video/av1456117895
-tags: 夢ノ結唱, 二手玫瑰, 唢呐, 翻调
+songs: [仙儿]
+engines: [Synthesizer V]
+voicebanks: [POPY]
+languages: [zh]
+videos: [https://www.bilibili.com/video/av1456117895]
+tags: [夢ノ結唱, 二手玫瑰, 唢呐, 翻调]
 
 ---
 

@@ -5,12 +5,12 @@ type: project
 submittedAt: 2025-07-06T09:45:00.000Z
 publishedAt: 2026-09-13T20:26:00.000Z
 cover: e44c39d5326ae8449596c43aa75d9b7f09da5c57.jpg
-songs: 今年夏天
-engines: Synthesizer V 2
-voicebanks: PASTEL, ROSE
-languages: zh
-videos: https://www.bilibili.com/video/av114804878546536
-tags: 夢ノ結唱, 毕业, 前岛亚美, 丸山彩
+songs: [今年夏天]
+engines: [Synthesizer V 2]
+voicebanks: [PASTEL, ROSE]
+languages: [zh]
+videos: [https://www.bilibili.com/video/av114804878546536]
+tags: [夢ノ結唱, 毕业, 前岛亚美, 丸山彩]
 
 ---
 

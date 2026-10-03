@@ -5,12 +5,12 @@ type: project
 submittedAt: 2026-05-14T04:05:00.000Z
 publishedAt: 2026-09-15T20:53:17.657Z
 cover: cover.png
-songs: Maihime
-engines: Synthesizer V 2
-voicebanks: POPY, ROSE, PASTEL, HALO
-languages: ja
-videos: https://www.bilibili.com/video/av116568415606812
-tags: 夢ノ結唱, D4DJ, Lyrical Lily, 中村航, 反田叶月, 进藤天音, 渡濑结月, 深川瑠华
+songs: [Maihime]
+engines: [Synthesizer V 2]
+voicebanks: [POPY, ROSE, PASTEL, HALO]
+languages: [ja]
+videos: [https://www.bilibili.com/video/av116568415606812]
+tags: [夢ノ結唱, D4DJ, Lyrical Lily, 中村航, 反田叶月, 进藤天音, 渡濑结月, 深川瑠华]
 
 ---
 

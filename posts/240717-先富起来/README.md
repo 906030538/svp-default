@@ -5,11 +5,11 @@ type: project
 submittedAt: 2024-07-17T01:00:00.000Z
 publishedAt: 2026-09-13T17:56:01.667Z
 cover: cover.png
-songs: 允许部分艺术家先富起来
-engines: Synthesizer V
-voicebanks: POPY
-languages: zh
-videos: https://www.bilibili.com/video/av1556166831
+songs: [允许部分艺术家先富起来]
+engines: [Synthesizer V]
+voicebanks: [POPY]
+languages: [zh]
+videos: [https://www.bilibili.com/video/av1556166831]
 
 ---
 

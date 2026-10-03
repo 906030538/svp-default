@@ -5,12 +5,12 @@ type: project
 submittedAt: 2024-01-16T18:35:00.000Z
 publishedAt: 2026-09-13T02:48:46.827Z
 cover: 656999453f2f3d0e41f8dca4fba0390a6155265a.jpg
-songs: 限りなく灰色へ
-engines: Synthesizer V
-voicebanks: POPY, POPY
-languages: ja
-videos: https://www.bilibili.com/video/av238770819
-tags: 夢ノ結唱, Project SEKAI, 25時、ナイトコードで。
+songs: [限りなく灰色へ]
+engines: [Synthesizer V]
+voicebanks: [POPY, ROSE]
+languages: [ja]
+videos: [https://www.bilibili.com/video/av238770819]
+tags: [夢ノ結唱, Project SEKAI, 25時、ナイトコードで。]
 
 ---
 

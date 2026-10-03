@@ -1,8 +1,11 @@
 backend:
   name: github
-  repo: testUser/svp-default
+  repo: 906030538/svp-default
   branch: main
 
+locale: zh_Hans
+
+# 每篇投稿的图片等媒体与 README.md 同目录（posts/<slug>/）
 media_folder: posts/{{slug}}
 public_folder: ./
 
@@ -11,52 +14,65 @@ collections:
     label: 投稿
     folder: posts
     path: "{{slug}}/README"
+    # SVT 格式：文件以 *Powered by Sector Vault Project* 行开头，元数据块以 --- 结束。
+    # 用自定义分隔符让 Decap CMS 按原格式读写，避免破坏平台解析。
+    format: yaml-frontmatter
+    frontmatter_delimiter: ["*Powered by Sector Vault Project*", "---"]
+    extension: md
     create: true
+    # 新建投稿时把标题写成「YYMMDD-名称」（如 261002-新投稿），目录名即符合现有惯例
     slug: "{{slug}}"
     fields:
       - { label: 标题, name: title, widget: string }
       - { label: 封面, name: cover, widget: image, required: false }
-      - { label: 投稿时间, name: submittedAt, widget: datetime }
-      - { label: 发布日期, name: publishedAt, widget: datetime }
+      - { label: 投稿时间, name: submittedAt, widget: datetime, format: "YYYY-MM-DDTHH:mm:ss.SSS[Z]", date_format: "YYYY-MM-DD", time_format: "HH:mm", picker_utc: true }
+      - { label: 发布日期, name: publishedAt, widget: datetime, format: "YYYY-MM-DDTHH:mm:ss.SSS[Z]", date_format: "YYYY-MM-DD", time_format: "HH:mm", picker_utc: true }
       - label: 类型
         name: type
         widget: select
         options: [project, article]
         default: project
+      # 以下字段为列表，元数据中按 YAML 块列表存储（- 项）
       - label: 歌曲
-        name: song
-        widget: array
-        allow_add: true
-        allow_remove: true
+        name: songs
+        widget: list
+        required: false
+        field: { label: 曲名, name: song, widget: string }
       - label: 合成引擎
         name: engines
-        widget: array
-        allow_add: true
-        allow_remove: true
+        widget: list
+        required: false
+        field: { label: 引擎, name: engine, widget: string }
       - label: 声库
         name: voicebanks
-        widget: array
-        allow_add: true
-        allow_remove: true
+        widget: list
+        required: false
+        field: { label: 声库, name: voicebank, widget: string }
       - label: 语言
         name: languages
-        widget: array
-        allow_add: true
-        allow_remove: true
+        widget: list
+        required: false
+        field: { label: 语言, name: language, widget: string }
+      - label: 视频
+        name: videos
+        widget: list
+        required: false
+        field: { label: 链接, name: link, widget: string }
       - label: 参数状态
         name: paramState
         widget: select
-        options: [with-param, tuned, no-param]
-        default: no-param
+        required: false
+        options: [with-params, tuned, no-param]
       - label: 标签
         name: tags
-        widget: array
-        allow_add: true
-        allow_remove: true
+        widget: list
+        required: false
+        field: { label: 标签, name: tag, widget: string }
       - { label: 正文, name: body, widget: markdown }
       - label: 关联发布id
         name: release
         widget: hidden
+        required: false
       - label: 关联评论id
         name: issue
         widget: hidden

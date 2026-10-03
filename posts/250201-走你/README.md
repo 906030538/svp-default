@@ -5,12 +5,12 @@ type: project
 submittedAt: 2025-02-01T02:30:00.000Z
 publishedAt: 2026-09-13T19:01:22.141Z
 cover: Cover.png
-songs: 走り始めたばかりのキミに
-engines: Synthesizer V
-voicebanks: POPY, ROSE
-languages: zh
-videos: https://www.bilibili.com/video/av113901324735612
-tags: 夢ノ結唱, 中文填词, 我们的重制人生, BanG Dream!, 中村航, 上松范康, 藤永龙太郎, Elements Garden, Poppin'Party, 月色君
+songs: [走り始めたばかりのキミに]
+engines: [Synthesizer V]
+voicebanks: [POPY, ROSE]
+languages: [zh]
+videos: [https://www.bilibili.com/video/av113901324735612]
+tags: [夢ノ結唱, 中文填词, 我们的重制人生, BanG Dream!, 中村航, 上松范康, 藤永龙太郎, Elements Garden, Poppin'Party, 月色君]
 
 ---
 

@@ -5,7 +5,7 @@ title: SV导出音频声道注意事项
 type: article
 submittedAt: 2026-09-12T16:04:20.916Z
 publishedAt: 2026-09-12T16:04:20.916Z
-tags: 教程, Synthesizer V
+tags: [教程, Synthesizer V]
 
 ---
 

@@ -5,12 +5,12 @@ type: project
 submittedAt: 2025-04-30T02:30:00.000Z
 publishedAt: 2026-09-13T20:20:15.020Z
 cover: cover.png
-songs: 天球、彗星は夜を跨いで
-engines: Synthesizer V
-voicebanks: POPY, ROSE
-languages: ja
-videos: https://www.bilibili.com/video/av114423045823486
-tags: 夢ノ結唱, 星街彗星, 天球, 星街すいせい
+songs: [天球、彗星は夜を跨いで]
+engines: [Synthesizer V]
+voicebanks: [POPY, ROSE]
+languages: [ja]
+videos: [https://www.bilibili.com/video/av114423045823486]
+tags: [夢ノ結唱, 星街彗星, 天球, 星街すいせい]
 
 ---
 

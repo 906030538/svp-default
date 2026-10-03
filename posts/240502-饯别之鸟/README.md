@@ -5,12 +5,12 @@ type: project
 submittedAt: 2024-05-02T14:46:00.000Z
 publishedAt: 2026-09-13T15:48:00.000Z
 cover: cover.png
-songs: 餞の鳥
-engines: Synthesizer V
-voicebanks: POPY, ROSE
-languages: ja
-videos: https://www.bilibili.com/video/av1953949248, https://www.youtube.com/watch?v=7iDn0zWy8HM
-tags: 夢ノ結唱, D/Zeal, 偶像大师, 百万现场, MLTD, 3DMV, 爱美, 田所梓
+songs: [餞の鳥]
+engines: [Synthesizer V]
+voicebanks: [POPY, ROSE]
+languages: [ja]
+videos: [https://www.bilibili.com/video/av1953949248, https://www.youtube.com/watch?v=7iDn0zWy8HM]
+tags: [夢ノ結唱, D/Zeal, 偶像大师, 百万现场, MLTD, 3DMV, 爱美, 田所梓]
 
 ---
 

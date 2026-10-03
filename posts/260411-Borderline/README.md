@@ -5,12 +5,12 @@ type: project
 submittedAt: 2026-04-11T04:15:00.000Z
 publishedAt: 2026-09-15T20:28:00.000Z
 cover: cover.png
-songs: Borderline
-engines: Synthesizer V 2
-voicebanks: POPY, ROSE, PASTEL, HALO, AVER
-languages: ja
-videos: https://www.bilibili.com/video/av116377004283925, https://www.youtube.com/watch?v=2_4IH9pFZ9M
-tags: 夢ノ結唱, 偶像大师, 闪耀色彩, Shiny Colors, 3DMV, 郁田阳希
+songs: [Borderline]
+engines: [Synthesizer V 2]
+voicebanks: [POPY, ROSE, PASTEL, HALO, AVER]
+languages: [ja]
+videos: [https://www.bilibili.com/video/av116377004283925, https://www.youtube.com/watch?v=2_4IH9pFZ9M]
+tags: [夢ノ結唱, 偶像大师, 闪耀色彩, Shiny Colors, 3DMV, 郁田阳希]
 
 ---
 

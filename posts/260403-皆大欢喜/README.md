@@ -5,12 +5,12 @@ type: project
 submittedAt: 2026-04-03T04:15:00.000Z
 publishedAt: 2026-09-13T20:31:00.000Z
 cover: 82d10118a7d0dda88e700b29e95cf2df6d003157.jpg
-songs: お気に召すまま
-engines: Synthesizer V 2
-voicebanks: POPY, ROSE, PASTEL, HALO, AVER
-languages: ja
-videos: https://www.bilibili.com/video/av116336403485154
-tags: 夢ノ結唱, Eve, VRM, 3DMV, ワンダーランズ×ショウタイム, Project SEKAI
+songs: [お気に召すまま]
+engines: [Synthesizer V 2]
+voicebanks: [POPY, ROSE, PASTEL, HALO, AVER]
+languages: [ja]
+videos: [https://www.bilibili.com/video/av116336403485154]
+tags: [夢ノ結唱, Eve, VRM, 3DMV, ワンダーランズ×ショウタイム, Project SEKAI]
 
 ---
 

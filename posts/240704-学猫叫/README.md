@@ -5,12 +5,12 @@ type: project
 submittedAt: 2024-07-04T02:00:00.000Z
 publishedAt: 2026-09-13T17:40:58.004Z
 cover: 43eec63ed4144a4c1f599becf1b5d5ffffa2182c.jpg
-songs: 学猫叫
-engines: Synthesizer V
-voicebanks: POPY, ROSE
-languages: zh
-videos: https://www.bilibili.com/video/av1756212961
-tags: 夢ノ結唱, 潘柚彤, 陈峰, PICO
+songs: [学猫叫]
+engines: [Synthesizer V]
+voicebanks: [POPY, ROSE]
+languages: [zh]
+videos: [https://www.bilibili.com/video/av1756212961]
+tags: [夢ノ結唱, 潘柚彤, 陈峰, PICO]
 
 ---
 

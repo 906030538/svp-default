@@ -5,12 +5,12 @@ type: project
 submittedAt: 2024-02-25T03:30:00.000Z
 publishedAt: 2026-09-13T15:18:20.924Z
 cover: 82c093430f5c14d3efb8551fcc715a473be2d932.jpg
-songs: POPPY
-engines: Synthesizer V
-voicebanks: POPY
-languages: ja
-videos: https://www.bilibili.com/video/av1751188025
-tags: 夢ノ結唱, VRM, MMD, 3DMV, STAYC
+songs: [POPPY]
+engines: [Synthesizer V]
+voicebanks: [POPY]
+languages: [ja]
+videos: [https://www.bilibili.com/video/av1751188025]
+tags: [夢ノ結唱, VRM, MMD, 3DMV, STAYC]
 
 ---
 
