@@ -11,6 +11,7 @@ voicebanks: [POPY]
 languages: [ja]
 videos: [https://www.bilibili.com/video/av1751188025]
 tags: [夢ノ結唱, VRM, MMD, 3DMV, STAYC]
+paramState: no-params
 
 ---
 

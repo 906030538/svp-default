@@ -11,6 +11,7 @@ voicebanks: [POPY, ROSE]
 languages: [ja]
 videos: [https://www.bilibili.com/video/av238770819]
 tags: [夢ノ結唱, Project SEKAI, 25時、ナイトコードで。]
+paramState: with-params
 
 ---
 

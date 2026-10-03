@@ -11,6 +11,7 @@ voicebanks: [POPY, ROSE, PASTEL, HALO, AVER]
 languages: [ja]
 videos: [https://www.bilibili.com/video/av116377004283925, https://www.youtube.com/watch?v=2_4IH9pFZ9M]
 tags: [夢ノ結唱, 偶像大师, 闪耀色彩, Shiny Colors, 3DMV, 郁田阳希]
+paramState: with-params
 
 ---
 

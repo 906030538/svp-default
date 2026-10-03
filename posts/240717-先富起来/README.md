@@ -10,6 +10,7 @@ engines: [Synthesizer V]
 voicebanks: [POPY]
 languages: [zh]
 videos: [https://www.bilibili.com/video/av1556166831]
+paramState: tuned
 
 ---
 

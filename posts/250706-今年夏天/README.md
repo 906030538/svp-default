@@ -11,6 +11,7 @@ voicebanks: [PASTEL, ROSE]
 languages: [zh]
 videos: [https://www.bilibili.com/video/av114804878546536]
 tags: [夢ノ結唱, 毕业, 前岛亚美, 丸山彩]
+paramState: tuned
 
 ---
 

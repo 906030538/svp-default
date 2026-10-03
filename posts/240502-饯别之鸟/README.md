@@ -11,6 +11,7 @@ voicebanks: [POPY, ROSE]
 languages: [ja]
 videos: [https://www.bilibili.com/video/av1953949248, https://www.youtube.com/watch?v=7iDn0zWy8HM]
 tags: [夢ノ結唱, D/Zeal, 偶像大师, 百万现场, MLTD, 3DMV, 爱美, 田所梓]
+paramState: with-params
 
 ---
 

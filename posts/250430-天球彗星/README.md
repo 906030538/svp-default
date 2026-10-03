@@ -11,6 +11,7 @@ voicebanks: [POPY, ROSE]
 languages: [ja]
 videos: [https://www.bilibili.com/video/av114423045823486]
 tags: [夢ノ結唱, 星街彗星, 天球, 星街すいせい]
+paramState: with-params
 
 ---
 

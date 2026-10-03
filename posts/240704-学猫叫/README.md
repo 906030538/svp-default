@@ -11,6 +11,7 @@ voicebanks: [POPY, ROSE]
 languages: [zh]
 videos: [https://www.bilibili.com/video/av1756212961]
 tags: [夢ノ結唱, 潘柚彤, 陈峰, PICO]
+paramState: tuned
 
 ---
 

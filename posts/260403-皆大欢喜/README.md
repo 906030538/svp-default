@@ -11,6 +11,7 @@ voicebanks: [POPY, ROSE, PASTEL, HALO, AVER]
 languages: [ja]
 videos: [https://www.bilibili.com/video/av116336403485154]
 tags: [夢ノ結唱, Eve, VRM, 3DMV, ワンダーランズ×ショウタイム, Project SEKAI]
+paramState: with-params
 
 ---
 

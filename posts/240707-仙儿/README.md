@@ -11,6 +11,7 @@ voicebanks: [POPY]
 languages: [zh]
 videos: [https://www.bilibili.com/video/av1456117895]
 tags: [夢ノ結唱, 二手玫瑰, 唢呐, 翻调]
+paramState: tuned
 
 ---
 

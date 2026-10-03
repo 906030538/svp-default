@@ -11,6 +11,7 @@ voicebanks: [POPY, ROSE, PASTEL, HALO]
 languages: [ja]
 videos: [https://www.bilibili.com/video/av116568415606812]
 tags: [夢ノ結唱, D4DJ, Lyrical Lily, 中村航, 反田叶月, 进藤天音, 渡濑结月, 深川瑠华]
+paramState: with-params
 
 ---
 
