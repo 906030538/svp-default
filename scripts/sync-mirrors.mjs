@@ -45,6 +45,7 @@ const AUTO_ARCHIVE_MARKERS = ['/archive/refs/tags/', '/-/archive/'];
 const isAutoArchive = (url) => AUTO_ARCHIVE_MARKERS.some((marker) => url.includes(marker));
 const PAGE_SIZE = 100;
 const MAX_PAGES = 50;
+const MAX_REDIRECTS = 10;
 
 const MIME_TYPES = {
   '.zip': 'application/zip',
@@ -189,29 +190,53 @@ function mimeOf(filename) {
   return MIME_TYPES[extname(filename).toLowerCase()] || 'application/octet-stream';
 }
 
-/** 下载资产到临时文件（手动跟随重定向，重定向后的签名 URL 不再携带令牌）。 */
+/**
+ * GET 并自动跟进 301/302/303/307/308 重定向链（最多 MAX_REDIRECTS 跳）。
+ * 只有首跳携带调用方给出的请求头（如 Authorization）；后续跳全部匿名——
+ * 重定向目标通常是带签名的 CDN 地址，多余的鉴权信息反而会导致 403。
+ * Location 支持绝对、相对与协议相对（//host/path）三种写法。
+ */
+async function fetchFollowingRedirects(startUrl, options = {}) {
+  let currentUrl = startUrl;
+  let res;
+  for (let hop = 0; hop <= MAX_REDIRECTS; hop++) {
+    res = await request(currentUrl, hop === 0 ? options : stripHeaders(options));
+    if (res.status >= 300 && res.status < 400) {
+      const location = res.headers.get('location');
+      await res.body?.cancel?.().catch(() => {});
+      if (!location) return res; // 3xx 但无 Location，按失败交给调用方报错
+      currentUrl = new URL(location, currentUrl).href;
+      continue;
+    }
+    return res;
+  }
+  return res; // 超过跳数上限，最后一个是 3xx，按失败处理
+}
+
+function stripHeaders(options) {
+  const { headers, ...rest } = options;
+  return rest;
+}
+
+/** 下载资产到临时文件（自动跟进整条 302 链，签名 URL 上不携带令牌）。 */
 async function downloadToTempFile(assetUrl, platform, token) {
   let firstUrl = assetUrl;
   if ((platform === 'gitee' || platform === 'atomgit') && token) {
     firstUrl += (firstUrl.includes('?') ? '&' : '?') + `access_token=${encodeURIComponent(token)}`;
   }
-  const tryAuth = platform === 'github' && token;
+  const firstHeaders =
+    platform === 'github' && token ? { headers: { Authorization: `Bearer ${token}` } } : {};
 
-  let res = await request(firstUrl, tryAuth ? { headers: { Authorization: `Bearer ${token}` } } : {});
-  if (res.status >= 300 && res.status < 400) {
-    const location = res.headers.get('location');
-    if (location) {
-      await res.body?.cancel?.().catch(() => {});
-      res = await request(location, {}); // 签名 URL，匿名访问
-    }
+  let res = await fetchFollowingRedirects(firstUrl, firstHeaders);
+  if (!res.ok && platform === 'github' && token) {
+    // 带 Authorization 的直连失败（签名地址不接受鉴权头），匿名重整条链
+    res = await fetchFollowingRedirects(assetUrl, {});
   }
-  if (!res.ok && !tryAuth) {
-    throw await apiError(`下载附件 ${assetUrl}`, res);
+  if (res.status >= 300 && res.status < 400) {
+    throw new Error(`下载附件 ${assetUrl} 重定向超过 ${MAX_REDIRECTS} 跳（疑似循环）`);
   }
   if (!res.ok) {
-    // 带 Authorization 的直连失败，匿名重试一次（公开仓库 / 可匿名访问的 CDN）
-    res = await request(assetUrl, {});
-    if (!res.ok) throw await apiError(`下载附件 ${assetUrl}`, res);
+    throw await apiError(`下载附件 ${assetUrl}`, res);
   }
 
   const dir = await mkdtemp(join(tmpdir(), 'mirror-sync-'));
@@ -835,4 +860,5 @@ export {
   detectCurrentRepo,
   planSyncTargets,
   createAtomgitClient,
+  downloadToTempFile,
 };
