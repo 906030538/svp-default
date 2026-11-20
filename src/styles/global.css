@@ -1,0 +1,119 @@
+@import 'tailwindcss';
+
+/* 深色主题由 .dark 类驱动（由 head 内联脚本按系统偏好/用户选择设置） */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --color-accent: #4f46e5;
+  --color-accent-dark: #6366f1;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-white text-slate-800 antialiased;
+}
+
+.dark body {
+  @apply bg-slate-950 text-slate-200;
+}
+
+/* hash 实时视图（#/post/{slug}）激活时隐藏页面常规内容，只显示实时视图容器 */
+body[data-live-view] main > :not([data-role='live-view']) {
+  display: none;
+}
+
+/* 卡片、按钮等通用组件基类。
+   放入 components 层：层序先于 utilities，任何 display 工具类（hidden/
+   响应式 block 等）都能覆盖 .btn/.chip 的 inline-flex——混用 hidden 与
+   btn/chip 的元素此前因层外规则必胜而无法隐藏 */
+@layer components {
+  .card {
+    @apply rounded-xl border border-slate-200 bg-white shadow-sm;
+  }
+
+  .dark .card {
+    @apply border-slate-800 bg-slate-900;
+  }
+
+  .btn {
+    @apply inline-flex items-center gap-1.5 rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-sm font-medium text-slate-700 transition-colors hover:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-50;
+  }
+
+  .dark .btn {
+    @apply border-slate-700 bg-slate-800 text-slate-200 hover:bg-slate-700;
+  }
+
+  .btn-primary {
+    @apply border-transparent bg-emerald-600 text-white hover:bg-emerald-500;
+  }
+
+  .dark .btn-primary {
+    @apply border-transparent bg-emerald-600 text-white hover:bg-emerald-500;
+  }
+
+  .btn-danger {
+    @apply border-transparent bg-rose-600 text-white hover:bg-rose-500;
+  }
+
+  .dark .btn-danger {
+    @apply border-transparent bg-rose-600 text-white hover:bg-rose-500;
+  }
+
+  .chip {
+    @apply inline-flex items-center rounded-full bg-slate-100 px-2.5 py-0.5 text-xs text-slate-600;
+  }
+
+  .dark .chip {
+    @apply bg-slate-800 text-slate-300;
+  }
+
+  .input {
+    @apply rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-sm text-slate-800 outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/30;
+  }
+
+  .dark .input {
+    @apply border-slate-700 bg-slate-800 text-slate-200;
+  }
+
+  .prose-svp {
+    @apply leading-relaxed;
+  }
+
+  .prose-svp h1,
+  .prose-svp h2,
+  .prose-svp h3 {
+    @apply mt-6 mb-3 font-semibold;
+  }
+
+  .prose-svp p {
+    @apply my-3;
+  }
+
+  .prose-svp ul,
+  .prose-svp ol {
+    @apply my-3 pl-6;
+  }
+
+  .prose-svp ul {
+    @apply list-disc;
+  }
+
+  .prose-svp ol {
+    @apply list-decimal;
+  }
+
+  .prose-svp blockquote {
+    @apply my-3 border-l-4 border-slate-300 pl-4 text-slate-500 dark:border-slate-600 dark:text-slate-400;
+  }
+
+  .prose-svp code {
+    @apply rounded bg-slate-100 px-1 py-0.5 text-sm dark:bg-slate-800;
+  }
+
+  .prose-svp a {
+    @apply text-emerald-600 underline dark:text-emerald-400;
+  }
+}

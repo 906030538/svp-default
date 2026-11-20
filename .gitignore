@@ -1,2 +1,7 @@
 node_modules/
 .DS_Store
+dist/
+.astro/
+
+# E2E mock site (generated from dist/)
+dist-mock/

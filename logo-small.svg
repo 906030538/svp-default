@@ -1,0 +1,168 @@
+<svg viewBox="0 0 204 84" width="204" height="84" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <rect id="c0" width="10" height="10" rx="3" fill="#82868c30" stroke="#1f23280d"
+      stroke-width="0.4" />
+    <rect id="c1" width="10" height="10" rx="3" fill="#aceebb" stroke="#1f23280d" stroke-width="0.4" />
+    <rect id="c2" width="10" height="10" rx="3" fill="#4ac26b" stroke="#1f23280d" stroke-width="0.4" />
+    <rect id="c3" width="10" height="10" rx="3" fill="#2da44e" stroke="#1f23280d" stroke-width="0.4" />
+    <rect id="c4" width="10" height="10" rx="3" fill="#116329" stroke="#1f23280d" stroke-width="0.4" />
+
+    <g id="|">
+      <use href="#c0" />
+      <use href="#c0" y="12" />
+      <use href="#c0" y="24" />
+      <use href="#c0" y="36" />
+      <use href="#c0" y="48" />
+      <use href="#c0" y="60" />
+      <use href="#c0" y="72" />
+    </g>
+    <g id="c_S">
+      <g>
+        <use href="#c1" />
+        <use href="#c4" y="12" />
+        <use href="#c4" y="24" />
+        <use href="#c1" y="36" />
+        <use href="#c0" y="48" />
+        <use href="#c0" y="60" />
+        <use href="#c1" y="72" />
+      </g>
+      <g>
+        <use href="#c4" x="12" />
+        <use href="#c0" x="12" y="12" />
+        <use href="#c0" x="12" y="24" />
+        <use href="#c4" x="12" y="36" />
+        <use href="#c0" x="12" y="48" />
+        <use href="#c0" x="12" y="60" />
+        <use href="#c4" x="12" y="72" />
+      </g>
+      <g>
+        <use href="#c4" x="24" />
+        <use href="#c0" x="24" y="12" />
+        <use href="#c0" x="24" y="24" />
+        <use href="#c4" x="24" y="36" />
+        <use href="#c0" x="24" y="48" />
+        <use href="#c0" x="24" y="60" />
+        <use href="#c4" x="24" y="72" />
+      </g>
+      <g>
+        <use href="#c4" x="36" />
+        <use href="#c0" x="36" y="12" />
+        <use href="#c0" x="36" y="24" />
+        <use href="#c4" x="36" y="36" />
+        <use href="#c0" x="36" y="48" />
+        <use href="#c0" x="36" y="60" />
+        <use href="#c4" x="36" y="72" />
+      </g>
+      <g>
+        <use href="#c1" x="48" />
+        <use href="#c0" x="48" y="12" />
+        <use href="#c0" x="48" y="24" />
+        <use href="#c1" x="48" y="36" />
+        <use href="#c4" x="48" y="48" />
+        <use href="#c4" x="48" y="60" />
+        <use href="#c1" x="48" y="72" />
+      </g>
+    </g>
+    <g id="c_V">
+      <g>
+        <use href="#c1" />
+        <use href="#c4" y="12" />
+        <use href="#c4" y="24" />
+        <use href="#c4" y="36" />
+        <use href="#c1" y="48" />
+        <use href="#c0" y="60" />
+        <use href="#c0" y="72" />
+      </g>
+      <g>
+        <use href="#c0" x="12" />
+        <use href="#c0" x="12" y="12" />
+        <use href="#c0" x="12" y="24" />
+        <use href="#c0" x="12" y="36" />
+        <use href="#c4" x="12" y="48" />
+        <use href="#c4" x="12" y="60" />
+        <use href="#c0" x="12" y="72" />
+      </g>
+      <g>
+        <use href="#c0" x="24" />
+        <use href="#c0" x="24" y="12" />
+        <use href="#c0" x="24" y="24" />
+        <use href="#c0" x="24" y="36" />
+        <use href="#c0" x="24" y="48" />
+        <use href="#c1" x="24" y="60" />
+        <use href="#c4" x="24" y="72" />
+      </g>
+      <g>
+        <use href="#c0" x="36" />
+        <use href="#c0" x="36" y="12" />
+        <use href="#c0" x="36" y="24" />
+        <use href="#c0" x="36" y="36" />
+        <use href="#c4" x="36" y="48" />
+        <use href="#c4" x="36" y="60" />
+        <use href="#c0" x="36" y="72" />
+      </g>
+      <g>
+        <use href="#c1" x="48" />
+        <use href="#c4" x="48" y="12" />
+        <use href="#c4" x="48" y="24" />
+        <use href="#c4" x="48" y="36" />
+        <use href="#c1" x="48" y="48" />
+        <use href="#c0" x="48" y="60" />
+        <use href="#c0" x="48" y="72" />
+      </g>
+    </g>
+    <g id="c_P">
+      <g>
+        <use href="#c4" />
+        <use href="#c4" y="12" />
+        <use href="#c4" y="24" />
+        <use href="#c4" y="36" />
+        <use href="#c4" y="48" />
+        <use href="#c4" y="60" />
+        <use href="#c4" y="72" />
+      </g>
+      <g>
+        <use href="#c4" x="12" />
+        <use href="#c0" x="12" y="12" />
+        <use href="#c0" x="12" y="24" />
+        <use href="#c4" x="12" y="36" />
+        <use href="#c0" x="12" y="48" />
+        <use href="#c0" x="12" y="60" />
+        <use href="#c0" x="12" y="72" />
+      </g>
+      <g>
+        <use href="#c4" x="24" />
+        <use href="#c0" x="24" y="12" />
+        <use href="#c0" x="24" y="24" />
+        <use href="#c4" x="24" y="36" />
+        <use href="#c0" x="24" y="48" />
+        <use href="#c0" x="24" y="60" />
+        <use href="#c0" x="24" y="72" />
+      </g>
+      <g>
+        <use href="#c4" x="36" />
+        <use href="#c0" x="36" y="12" />
+        <use href="#c0" x="36" y="24" />
+        <use href="#c4" x="36" y="36" />
+        <use href="#c0" x="36" y="48" />
+        <use href="#c0" x="36" y="60" />
+        <use href="#c0" x="36" y="72" />
+      </g>
+      <g>
+        <use href="#c1" x="48" />
+        <use href="#c4" x="48" y="12" />
+        <use href="#c4" x="48" y="24" />
+        <use href="#c1" x="48" y="36" />
+        <use href="#c0" x="48" y="48" />
+        <use href="#c0" x="48" y="60" />
+        <use href="#c0" x="48" y="72" />
+      </g>
+    </g>
+  </defs>
+
+  <use href="#c_S" x="1" />
+  <use href="#|" x="61" />
+  <use href="#c_V" x="73" />
+  <use href="#|" x="133" />
+  <use href="#c_P" x="145" />
+
+</svg>

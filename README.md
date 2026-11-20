@@ -1,6 +1,6 @@
 # svp-default
 
-Sector Vault Project 内容仓（默认模板）。
+Sector Vault Project 内容仓（含自举站点）。
 
 ## 目录
 

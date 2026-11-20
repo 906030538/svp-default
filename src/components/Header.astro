@@ -1,0 +1,27 @@
+---
+import logoSmallUrl from '../../logo-small.svg?url';
+import LanguageSwitcher from '@/components/LanguageSwitcher.astro';
+import ThemeToggle from '@/components/ThemeToggle.astro';
+import { DEFAULT_LOCALE } from '@/i18n';
+import { pageUrl } from '@/lib/base';
+import { getSiteContext } from '@/lib/site';
+
+const locale = DEFAULT_LOCALE;
+const site = getSiteContext();
+const siteTitle = site.name || site.repo;
+// 便携构建：嵌套页（/post/{slug}/）logo 回首页需按深度回退
+const pageDepth = Astro.url.pathname.replace(/\/+$/, '').split('/').filter(Boolean).length;
+---
+
+<header class="sticky top-0 z-30 border-b border-slate-200 bg-white/80 backdrop-blur dark:border-slate-800 dark:bg-slate-950/80">
+  <div class="mx-auto flex h-14 max-w-6xl items-center gap-3 px-4">
+    <a href={pageUrl('/', pageDepth)} class="flex min-w-0 items-center gap-2 font-bold">
+      <img src={logoSmallUrl} alt="" class="h-6 w-6 shrink-0" />
+      <span class="truncate">{siteTitle}</span>
+    </a>
+    <span class="ml-auto flex items-center gap-2">
+      <LanguageSwitcher locale={locale} />
+      <ThemeToggle locale={locale} />
+    </span>
+  </div>
+</header>

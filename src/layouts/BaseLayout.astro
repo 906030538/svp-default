@@ -1,0 +1,132 @@
+---
+import '@/styles/global.css';
+import Header from '@/components/Header.astro';
+import Footer from '@/components/Footer.astro';
+import { SITE_NAME } from '@/config';
+import faviconUrl from '../../favicon.svg?url';
+import { DEFAULT_LOCALE, t } from '@/i18n';
+import type { MessageKey } from '@/i18n';
+import { getSiteContext } from '@/lib/site';
+import { RELATIVE_BASE } from '@/lib/base';
+
+interface Props {
+  title?: string;
+  /** 纯文案标题：随语言偏好由客户端重译 */
+  titleKey?: MessageKey;
+}
+
+const { title, titleKey } = Astro.props;
+const locale = DEFAULT_LOCALE;
+const baseTitle = titleKey ? t(locale, titleKey) : title;
+const pageTitle = baseTitle ? `${baseTitle} - ${SITE_NAME}` : SITE_NAME;
+const site = getSiteContext();
+// 运行时取数源坐标（hash 实时视图 / 列表刷新 / 详情热替换读取）；< 转义防 </script> 逃逸
+const sourceJson = JSON.stringify({ owner: site.owner, repo: site.repo, platform: site.platform }).replace(/</g, '\\u003c');
+// 便携构建（相对 base）：按本页目录深度烧入站内前缀，供共享 chunk 客户端
+// 解析媒体/导航路径（file:// 下 pathname 是文件系统路径，无法运行时推算）；
+// 部署构建不输出该属性（客户端回退构建期 BASE，行为与历版一致）。
+const pageDepth = Astro.url.pathname.replace(/\/+$/, '').split('/').filter(Boolean).length;
+const assetPrefix = RELATIVE_BASE ? '../'.repeat(pageDepth) || './' : undefined;
+---
+
+<!doctype html>
+<html lang={locale} data-asset-prefix={assetPrefix}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href={faviconUrl} />
+    <meta name="generator" content={Astro.generator} />
+    <title data-i18n={titleKey}>{pageTitle}</title>
+    <!-- 首屏前应用主题，避免闪烁：默认白色，跟随系统深色自动切换，用户选择优先 -->
+    <script is:inline>
+      (function () {
+        try {
+          var stored = localStorage.getItem('svp-theme');
+          var dark = stored
+            ? stored === 'dark'
+            : window.matchMedia('(prefers-color-scheme: dark)').matches;
+          document.documentElement.classList.toggle('dark', dark);
+          window
+            .matchMedia('(prefers-color-scheme: dark)')
+            .addEventListener('change', function (e) {
+              if (!localStorage.getItem('svp-theme')) {
+                document.documentElement.classList.toggle('dark', e.matches);
+              }
+            });
+          // 语言偏好不体现在路由中：首屏前同步 <html lang>
+          var lang = localStorage.getItem('svp-locale');
+          if (lang) document.documentElement.lang = lang;
+        } catch (e) {}
+      })();
+    </script>
+    <script>
+      import { applyClientLocale } from '@/lib/i18n-client';
+      applyClientLocale();
+    </script>
+    <!-- 运行时取数源坐标（lib/remote.ts 读取）：site.json + CI 注入的构建期快照 -->
+    <script type="application/json" id="svp-source" set:html={sourceJson} />
+  </head>
+  <body class="flex min-h-screen flex-col">
+    <Header locale={locale} />
+    <main class="mx-auto w-full max-w-6xl flex-1 px-4 py-8">
+      <slot />
+      <!-- hash 实时视图挂载点（#/post/{slug}；global.css 激活时隐藏常规内容） -->
+      <div data-role="live-view" hidden></div>
+    </main>
+    <Footer locale={locale} />
+  </body>
+</html>
+
+<script>
+  // hash 路由器：#/post/{slug} → 动态加载实时视图模块渲染最新内容；
+  // hash 清空（#/ 或无 hash）→ 还原页面常规内容。轻量常驻，重模块按需加载。
+  // slug 白名单与索引仓 submission.schema 同口径（ASCII + CJK + 假名 + 谚文）
+  const SLUG_RE =
+    /^[0-9A-Za-z_\-\u3041-\u30FF\u3400-\u4DBF\u4E00-\u9FFF\uF900-\uFAFF\uAC00-\uD7A3\u3130-\u318F]+$/;
+  const parseSlug = (): string | null => {
+    const match = location.hash.match(/^#\/post\/([^?#]+)/);
+    if (!match) return null;
+    let slug: string;
+    try {
+      slug = decodeURIComponent(match[1]);
+    } catch {
+      return null;
+    }
+    return slug.length <= 200 && SLUG_RE.test(slug) ? slug : null;
+  };
+
+  type LiveModule = typeof import('@/lib/live');
+
+  const container = document.querySelector<HTMLElement>('[data-role="live-view"]');
+  let active = false;
+  let liveModule: LiveModule | null = null;
+  let previousTitle = '';
+
+  async function updateRoute(): Promise<void> {
+    if (!container) return;
+    const slug = parseSlug();
+    if (slug) {
+      if (!active) {
+        active = true;
+        previousTitle = document.title;
+        document.body.dataset.liveView = '1';
+      }
+      try {
+        liveModule ??= await import('@/lib/live');
+      } catch {
+        container.hidden = false;
+        container.textContent = 'live view load failed';
+        return;
+      }
+      await liveModule.renderLive(container, slug);
+    } else if (active) {
+      active = false;
+      delete document.body.dataset.liveView;
+      liveModule?.clearLive(container);
+      document.title = previousTitle;
+    }
+  }
+
+  window.addEventListener('hashchange', () => void updateRoute());
+  void updateRoute();
+</script>

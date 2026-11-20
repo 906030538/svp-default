@@ -1,0 +1,115 @@
+---
+import { t } from '@/i18n';
+import type { Locale } from '@/i18n';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+---
+
+<!-- 主题选择：图标按钮（随当前模式切换）+ 下拉（跟随系统/浅色/深色，选择即时生效） -->
+<div class="relative" data-role="theme-switcher">
+  <button
+    type="button"
+    id="theme-switcher"
+    class="btn h-8 px-2.5"
+    aria-haspopup="listbox"
+    aria-expanded="false"
+    aria-label={t(locale, 'theme.label')}
+    data-i18n-aria="theme.label"
+    title={t(locale, 'theme.label')}
+  >
+    <span data-role="theme-icon" class="inline-flex"></span>
+    <svg viewBox="0 0 24 24" width="0.75em" height="0.75em" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+  </button>
+  <div
+    class="absolute right-0 z-40 mt-1 hidden w-40 overflow-hidden rounded-lg border border-slate-200 bg-white shadow-lg dark:border-slate-700 dark:bg-slate-900"
+    data-role="theme-menu"
+    role="listbox"
+    aria-label={t(locale, 'theme.label')}
+  ></div>
+</div>
+
+<script>
+  import { t } from '@/i18n';
+  import { getClientLocale } from '@/lib/i18n-client';
+  import type { MessageKey } from '@/i18n';
+
+  const root = document.querySelector('[data-role="theme-switcher"]');
+  const button = root?.querySelector<HTMLButtonElement>('#theme-switcher') ?? null;
+  const menu = root?.querySelector<HTMLElement>('[data-role="theme-menu"]') ?? null;
+  const iconBox = root?.querySelector<HTMLElement>('[data-role="theme-icon"]') ?? null;
+
+  // 模式图标：auto 半圆对比 / light 太阳 / dark 月亮
+  const ICONS: Record<string, string> = {
+    auto: '<svg viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 000 20 10 10 0 000-20zm0 18V4a8 8 0 010 16z"/></svg>',
+    light: '<svg viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.99 4.58a.996.996 0 00-1.41 0 .996.996 0 000 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41L5.99 4.58zm12.37 12.37a.996.996 0 00-1.41 0 .996.996 0 000 1.41l1.06 1.06c.39.39 1.03.39 1.41 0a.996.996 0 000-1.41l-1.06-1.06zm1.06-10.96a.996.996 0 000-1.41.996.996 0 00-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06zM7.05 18.36a.996.996 0 000-1.41.996.996 0 00-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06z"/></svg>',
+    dark: '<svg viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 3a9 9 0 109 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 01-4.4 2.26 5.403 5.403 0 01-3.14-9.8c-.44-.06-.9-.1-1.36-.1z"/></svg>',
+  };
+  const OPTIONS: { value: string; labelKey: MessageKey }[] = [
+    { value: 'auto', labelKey: 'theme.auto' },
+    { value: 'light', labelKey: 'theme.light' },
+    { value: 'dark', labelKey: 'theme.dark' },
+  ];
+
+  const locale = getClientLocale();
+  const apply = (theme: string) => {
+    const dark =
+      theme === 'dark' ||
+      (theme === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    document.documentElement.classList.toggle('dark', dark);
+    if (iconBox) iconBox.innerHTML = ICONS[theme] ?? ICONS.auto!;
+  };
+
+  if (root && button && menu && iconBox) {
+    const stored = localStorage.getItem('svp-theme') ?? 'auto';
+    apply(stored);
+
+    button.addEventListener('click', () => {
+      const open = menu.classList.toggle('hidden');
+      button.setAttribute('aria-expanded', String(!open));
+    });
+    document.addEventListener('click', (event) => {
+      if (!root.contains(event.target as Node)) {
+        menu.classList.add('hidden');
+        button.setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    for (const item of OPTIONS) {
+      const option = document.createElement('button');
+      option.type = 'button';
+      option.className =
+        'flex w-full items-center gap-2 px-3 py-2 text-left text-sm hover:bg-slate-100 dark:hover:bg-slate-800';
+      option.setAttribute('role', 'option');
+      option.dataset.theme = item.value;
+      const icon = document.createElement('span');
+      icon.className = 'inline-flex w-4';
+      icon.innerHTML = ICONS[item.value]!;
+      const label = document.createElement('span');
+      label.textContent = t(locale, item.labelKey);
+      option.append(icon, label);
+      if (item.value === stored) {
+        option.classList.add('bg-emerald-50', 'font-medium', 'dark:bg-emerald-950/40');
+        option.setAttribute('aria-selected', 'true');
+      }
+      option.addEventListener('click', () => {
+        if (item.value === 'auto') localStorage.removeItem('svp-theme');
+        else localStorage.setItem('svp-theme', item.value);
+        apply(item.value);
+        menu.classList.add('hidden');
+        for (const other of Array.from(menu.querySelectorAll<HTMLButtonElement>('[data-theme]'))) {
+          const active = other.dataset.theme === item.value;
+          other.classList.toggle('bg-emerald-50', active);
+          other.classList.toggle('font-medium', active);
+          other.classList.toggle('dark:bg-emerald-950/40', active);
+          if (active) other.setAttribute('aria-selected', 'true');
+          else other.removeAttribute('aria-selected');
+        }
+      });
+      menu.appendChild(option);
+    }
+  }
+</script>

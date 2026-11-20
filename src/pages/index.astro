@@ -1,0 +1,186 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { DEFAULT_LOCALE, t } from '@/i18n';
+import { loadArchive } from '@/lib/archive';
+import { getSiteContext } from '@/lib/site';
+import { pageUrl, withBase } from '@/lib/base';
+import { buildCoverUrl, encSeg, listHtml } from '@/lib/viewgen';
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
+import { identifyLicenseText } from '@/lib/utils';
+import type { SubmissionEntry } from '@/types';
+
+/**
+ * 集合页（站点首页）：当前内容仓的全部稿件。
+ * 数据源为本仓 svp-archive.json（目录扫描兜底）；卡片标记由 viewgen 生成
+ * （构建期 SSG 与运行时刷新共用），客户端再拉远端索引合并——
+ * 未重新部署的新稿件以 hash 链接（#/post/{slug}）出现在列表中。
+ */
+const locale = DEFAULT_LOCALE;
+const site = getSiteContext();
+const entries = loadArchive();
+
+const projects = entries.filter((e) => e.type === 'project');
+const articles = entries.filter((e) => e.type === 'article');
+
+// 仓库许可证（本地 LICENSE 文件识别；缺失/无法识别时隐藏）
+let licenseId: string | null = null;
+try {
+  licenseId = await identifyLicenseText(readFileSync(join(process.cwd(), 'LICENSE'), 'utf8'));
+} catch {
+  licenseId = null;
+}
+
+// 运行时刷新用的构建期快照（slug + 全部展示字段；remote 合并时远端优先，但构建期已知 slug 永不丢失）
+const SLIM_FIELDS = [
+  'slug',
+  'type',
+  'title',
+  'cover',
+  'submittedAt',
+  'publishedAt',
+  'paramState',
+  'songs',
+  'engines',
+  'voicebanks',
+  'languages',
+  'tags',
+  'owner',
+] as const;
+const buildSnapshot = entries.map((entry) =>
+  Object.fromEntries(SLIM_FIELDS.map((field) => [field, entry[field] ?? null])),
+);
+const snapshotJson = JSON.stringify(buildSnapshot).replace(/</g, '\\u003c');
+
+const tabs: { tab: 'project' | 'article'; list: SubmissionEntry[] }[] = [
+  { tab: 'project', list: projects },
+  { tab: 'article', list: articles },
+];
+---
+
+<BaseLayout>
+  <section class="mx-auto w-full max-w-4xl">
+    <header class="card p-6">
+      <h1 class="text-2xl font-bold">{site.name || site.repo}</h1>
+      <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">{site.owner}</p>
+      {licenseId && (
+        <p class="mt-2 text-sm">
+          <span class="text-slate-500 dark:text-slate-400" data-i18n="label.license">{t(locale, 'label.license')}</span>
+          ：{licenseId}
+        </p>
+      )}
+    </header>
+
+    <nav class="mt-6 flex gap-2" data-role="collection-tabs">
+      <button type="button" class="btn" data-tab="project" data-i18n="nav.projects">{t(locale, 'nav.projects')}</button>
+      <button type="button" class="btn" data-tab="article" data-i18n="nav.articles">{t(locale, 'nav.articles')}</button>
+    </nav>
+
+    {tabs.map(({ tab, list }) => (
+      <div
+        class="mt-4 flex flex-col gap-3"
+        data-role="collection-list"
+        data-tab={tab}
+        hidden={tab !== 'project'}
+        set:html={listHtml(list, {
+          locale,
+          hrefFor: (entry) => pageUrl(`/post/${encSeg(entry.slug)}`),
+          coverFor: (entry) => buildCoverUrl(entry, withBase),
+        })}
+      />
+    ))}
+  </section>
+
+  <!-- 构建期索引快照（运行时刷新脚本读取；与远端最新索引合并） -->
+  <script type="application/json" id="svp-build-archive" set:html={snapshotJson} />
+</BaseLayout>
+
+<script>
+  // tab 切换：数据全量输出（SEO 友好），客户端仅做显隐
+  const nav = document.querySelector<HTMLElement>('[data-role="collection-tabs"]');
+  const lists = document.querySelectorAll<HTMLElement>('[data-role="collection-list"]');
+  function activate(tab: string): void {
+    for (const btn of nav?.querySelectorAll('button') ?? [])
+      btn.classList.toggle('btn-primary', (btn as HTMLElement).dataset.tab === tab);
+    for (const list of lists) list.hidden = list.dataset.tab !== tab;
+    try {
+      localStorage.setItem('svp-collection-tab', tab);
+    } catch {
+      /* 私有模式忽略 */
+    }
+  }
+  nav?.addEventListener('click', (event) => {
+    const btn = (event.target as HTMLElement).closest('button');
+    if (btn?.dataset.tab) activate(btn.dataset.tab);
+  });
+  // 记忆上次 tab（缺省工程）
+  try {
+    const stored = localStorage.getItem('svp-collection-tab');
+    if (stored === 'project' || stored === 'article') activate(stored);
+  } catch {
+    /* ignore */
+  }
+</script>
+
+<script>
+  // 运行时列表刷新：拉取远端 svp-archive.json，与构建期快照合并后重渲染卡片。
+  // 口径：远端条目字段优先；构建期已知 slug 永不丢失（索引滞后/仓库删除均保留，
+  // SSG 页面与已部署媒体仍可访问）。新增 slug 的卡片链接走 hash 实时视图。
+  // 远端拉取失败 → 静默保留构建期列表。
+  import { applyClientLocale, getClientLocale } from '@/lib/i18n-client';
+  import { fetchArchive, getSource, remoteCoverUrl } from '@/lib/remote';
+  import { encSeg, entrySig, listHtml } from '@/lib/viewgen';
+  import { pageBase } from '@/lib/base';
+  import type { Locale } from '@/i18n';
+  import type { SubmissionEntry } from '@/types';
+
+  type SlimEntry = Record<string, unknown> & { slug: string; type?: string };
+
+  // 异步函数包裹（不用顶层 await）：classic script 化（便携构建）不支持 TLA
+  async function refreshList(): Promise<void> {
+    const source = getSource();
+    if (!source) return;
+    try {
+      const snapshotNode = document.getElementById('svp-build-archive');
+      const buildEntries = JSON.parse(snapshotNode?.textContent ?? '[]') as SlimEntry[];
+      const remote = await fetchArchive(source);
+      if (remote) {
+        const bySlug = new Map<string, SubmissionEntry | SlimEntry>(
+          buildEntries.map((e) => [e.slug, e]),
+        );
+        for (const entry of remote) bySlug.set(entry.slug, entry);
+        const merged = [...bySlug.values()].sort(
+          (a, b) => Date.parse(String(b.submittedAt ?? '')) - Date.parse(String(a.submittedAt ?? '')),
+        );
+
+        // 无变化则不动 DOM（避免打断正在进行的交互）
+        const sigOf = (list: (SubmissionEntry | SlimEntry)[]): string =>
+          JSON.stringify(list.map((e) => [e.slug, entrySig(e as SubmissionEntry)]));
+        if (sigOf(merged) !== sigOf(buildEntries)) {
+          const buildKnown = new Set(buildEntries.map((e) => e.slug));
+          const locale: Locale = getClientLocale();
+          const render = (tab: 'project' | 'article'): void => {
+            const list = merged.filter((e) => (e.type === 'project') === (tab === 'project'));
+            const el = document.querySelector<HTMLElement>(`[data-role="collection-list"][data-tab="${tab}"]`);
+            if (!el) return;
+            el.innerHTML = listHtml(list as SubmissionEntry[], {
+              locale,
+              hrefFor: (e) =>
+                buildKnown.has(e.slug)
+                  ? pageBase(`/post/${encSeg(e.slug)}`)
+                  : `#/post/${encSeg(e.slug)}`,
+              coverFor: (e) => remoteCoverUrl(source, e as SubmissionEntry),
+            });
+          };
+          render('project');
+          render('article');
+          applyClientLocale();
+        }
+      }
+    } catch {
+      /* 远端不可达：保留构建期列表 */
+    }
+  }
+
+  void refreshList();
+</script>

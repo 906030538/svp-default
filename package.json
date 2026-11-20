@@ -1,0 +1,29 @@
+{
+  "name": "svp-default",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Sector Vault Project 内容仓个人展示站（集合详情 + 稿件详情，构建期静态生成）",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "build:portable": "node scripts/build-portable.mjs",
+    "check": "astro check",
+    "preview": "astro preview"
+  },
+  "dependencies": {
+    "@tailwindcss/vite": "^4.1.0",
+    "astro": "^7.4.4",
+    "dompurify": "^3.4.14",
+    "jsdom": "^27.0.0",
+    "marked": "^18.0.11",
+    "tailwindcss": "^4.1.0"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.12",
+    "@types/jsdom": "^30.0.0",
+    "@types/node": "^26.6.6",
+    "esbuild": "^0.28.2",
+    "typescript": "^5.8.0"
+  }
+}

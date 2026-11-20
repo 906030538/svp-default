@@ -1,0 +1,168 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { DEFAULT_LOCALE } from '@/i18n';
+import { pageUrl, withBase } from '@/lib/base';
+import { readSubmissionReadme, listSubmissionFiles, loadArchive } from '@/lib/archive';
+import { parseReadme } from '@/lib/content';
+import { renderMarkdown } from '@/lib/markdown';
+import { sourceRepoUrl } from '@/lib/site';
+import { buildCoverUrl, buildMediaItems, detailHtml, encSeg, entrySig } from '@/lib/viewgen';
+import { sha256Hex } from '@/lib/utils';
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
+import { identifyLicenseText } from '@/lib/utils';
+import type { SubmissionEntry } from '@/types';
+
+/**
+ * 稿件详情页 /post/:slug：主站 /view/:user/:repo/:slug 的构建期 SSG 版。
+ * 标记由 viewgen 生成（与 hash 实时视图共用）；客户端新鲜度检查拉取远端
+ * README + 索引，有更新则热替换为仓库最新内容（带「已更新」徽标），
+ * 已删除则展示移除提示——未重新部署也能读到最新内容。
+ */
+export function getStaticPaths() {
+  return loadArchive().map((entry) => ({ params: { slug: entry.slug } }));
+}
+
+const { slug } = Astro.params;
+const locale = DEFAULT_LOCALE;
+const entry: SubmissionEntry | undefined = loadArchive().find((e) => e.slug === slug);
+if (!entry) throw new Error(`entry not found: ${slug}`);
+
+// 本页位于 /post/{slug}/（站点根下两层）：便携构建的相对路径按此深度回退
+const pageDepth = 2;
+
+const raw = readSubmissionReadme(entry.slug) ?? '';
+const parsed = parseReadme(raw);
+const dirFiles = listSubmissionFiles(entry.slug);
+
+const fileUrl = (name: string): string =>
+  withBase(`/posts/${encSeg(entry.slug)}/${encSeg(name)}`, pageDepth);
+const media = buildMediaItems(dirFiles, parsed, fileUrl);
+
+const bodyHtml = await renderMarkdown(parsed.body);
+
+// 仓库许可证（作者卡展示）
+let licenseId: string | null = null;
+try {
+  licenseId = await identifyLicenseText(readFileSync(join(process.cwd(), 'LICENSE'), 'utf8'));
+} catch {
+  licenseId = null;
+}
+
+const detailHtmlText = detailHtml(
+  {
+    entry,
+    parsed,
+    bodyHtml,
+    coverUrl: buildCoverUrl(entry, (p) => withBase(p, pageDepth)),
+    media,
+    licenseId,
+    sourceRepoUrl: sourceRepoUrl(),
+    backHref: pageUrl('/', pageDepth),
+    fileUrl,
+  },
+  { locale },
+);
+
+// 热替换元数据：构建期 README 哈希 + 展示字段签名 + 条目快照（远端索引缺失时回退）
+const SLIM_FIELDS = [
+  'slug',
+  'type',
+  'title',
+  'cover',
+  'submittedAt',
+  'publishedAt',
+  'paramState',
+  'songs',
+  'engines',
+  'voicebanks',
+  'languages',
+  'tags',
+  'owner',
+] as const;
+const entrySnapshot = Object.fromEntries(SLIM_FIELDS.map((field) => [field, entry[field] ?? null]));
+const readmeSha = await sha256Hex(raw);
+const sig = entrySig(entry);
+---
+
+<BaseLayout title={entry.title}>
+  <div
+    data-role="post-detail"
+    data-slug={entry.slug}
+    data-readme-sha={readmeSha}
+    data-entry-sig={sig}
+    data-entry={JSON.stringify(entrySnapshot).replace(/</g, '\\u003c')}
+  >
+    <div set:html={detailHtmlText} />
+  </div>
+</BaseLayout>
+
+<script>
+  // 详情页新鲜度检查：并行拉取远端索引与 README——
+  // · README 404 → 「已从仓库移除」提示（保留构建期内容）
+  // · README 哈希或展示字段签名变化 → 热替换为仓库最新内容（媒体走平台 raw 直链）
+  // · 拉取失败 → 静默保留构建期内容
+  import { SITE_NAME } from '@/config';
+  import { applyClientLocale, getClientLocale } from '@/lib/i18n-client';
+  import { loadLivePost } from '@/lib/live-core';
+  import { RemoteNotFoundError, fetchArchive, fetchReadme, getSource } from '@/lib/remote';
+  import { detailHtml, entrySig } from '@/lib/viewgen';
+  import { sha256Hex } from '@/lib/utils';
+  import { pageBase } from '@/lib/base';
+  import { t } from '@/i18n';
+  import type { SubmissionEntry } from '@/types';
+
+  async function checkFreshness(): Promise<void> {
+    const wrapper = document.querySelector<HTMLElement>('[data-role="post-detail"]');
+    const source = getSource();
+    if (!wrapper || !source) return;
+
+    const slug = wrapper.dataset.slug ?? '';
+    const buildSha = wrapper.dataset.readmeSha ?? '';
+    const buildSig = wrapper.dataset.entrySig ?? '';
+    const buildEntry = JSON.parse(wrapper.dataset.entry ?? 'null') as SubmissionEntry | null;
+
+    try {
+      const [archive, readme] = await Promise.all([
+        fetchArchive(source).catch(() => null),
+        fetchReadme(source, slug).catch((error: unknown) =>
+          error instanceof RemoteNotFoundError ? ('NOT_FOUND' as const) : null,
+        ),
+      ]);
+
+      if (readme === 'NOT_FOUND') {
+        // 已从仓库移除：保留构建期内容 + 移除提示
+        const locale = getClientLocale();
+        wrapper.insertAdjacentHTML(
+          'afterbegin',
+          `<div class="card mb-4 border-amber-300 p-4 text-sm text-amber-700 dark:border-amber-700 dark:text-amber-400" data-i18n="live.removed">${t(locale, 'live.removed')}</div>`,
+        );
+        applyClientLocale();
+        return;
+      }
+      if (readme === null || !buildEntry) return; // 无法判定或快照缺失 → 保留构建期内容
+
+      const remoteEntry = archive?.find((e) => e.slug === slug) ?? null;
+      const sha = await sha256Hex(readme);
+      const sigChanged = remoteEntry ? entrySig(remoteEntry) !== buildSig : false;
+      if (!sigChanged && sha === buildSha) return; // 无变化
+
+      const result = await loadLivePost(source, slug, {
+        archive,
+        readme,
+        fallbackEntry: buildEntry,
+        backHref: pageBase('/'),
+      });
+      if (result.status !== 'ok') return;
+
+      const locale = getClientLocale();
+      wrapper.innerHTML = detailHtml(result.view, { locale, updatedChip: true });
+      applyClientLocale();
+      document.title = `${result.entry.title} - ${SITE_NAME}`;
+    } catch {
+      /* 静默保留构建期内容 */
+    }
+  }
+
+  void checkFreshness();
+</script>

@@ -1,0 +1,70 @@
+# 个人展示站部署（GitHub Pages）
+# 首次使用：仓库 Settings → Pages → Source 选择 "GitHub Actions"。
+# 自定义域名：把 ASTRO_SITE 改为域名并将 ASTRO_BASE 置空，CNAME 指向
+# <owner>.github.io；详见 docs/PERSONAL-SITE.md。
+name: Deploy site
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'posts/**'
+      - 'svp-archive.json'
+      - 'src/**'
+      - 'public/**'
+      - 'site.json'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'astro.config.mjs'
+      - 'LICENSE'
+      - '.github/workflows/deploy-site.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        env:
+          # 项目页部署在 <owner>.github.io/<repo> 子路径下（fork 后零配置）
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          ASTRO_SITE: https://${{ github.repository_owner }}.github.io
+          ASTRO_BASE: /${{ github.event.repository.name }}
+        run: npx astro build
+
+      # 媒体与工程文件随产物部署：站内 URL /posts/{slug}/{file} 全部走 Pages 域名
+      - name: Copy posts assets
+        run: cp -r posts dist/posts
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
